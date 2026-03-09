@@ -10,7 +10,7 @@ password: document.getElementById("password").value,
 role: document.getElementById("role").value
 }
 
-const res = await fetch(BASE_URL+"/user/register",{
+const res = await fetch(BASE_URL + "/user/register", {
 method:"POST",
 headers:{ "Content-Type":"application/json"},
 body:JSON.stringify(data)
@@ -21,6 +21,7 @@ document.getElementById("msg").innerText = result.message
 }
 
 
+
 async function login(){
 
 const data = {
@@ -28,7 +29,7 @@ email: document.getElementById("email").value,
 password: document.getElementById("password").value
 }
 
-const res = await fetch(BASE_URL+"/user/login",{
+const res = await fetch(BASE_URL + "/user/login",{
 method:"POST",
 headers:{ "Content-Type":"application/json"},
 body:JSON.stringify(data)
@@ -36,24 +37,40 @@ body:JSON.stringify(data)
 
 const result = await res.json()
 
+console.log(result)  
+
+if(res.ok && result.token){
+
 localStorage.setItem("token", result.token)
 
-if(result.token){
 alert("Login successful")
+
+try{
 
 const payload = JSON.parse(atob(result.token.split(".")[1]))
 
-if(payload.role==="TRAINER"){
-window.location="trainer.html"
+if(payload.role === "TRAINER"){
+window.location.href = "trainer.html"
 }else{
-window.location="employee.html"
+window.location.href = "employee.html"
+}
+
+}catch(error){
+
+
+window.location.href = "employee.html"
+
 }
 
 }else{
-document.getElementById("msg").innerText=result.message
+
+document.getElementById("msg").innerText = result.message || "Login failed"
+
 }
 
 }
+
+
 async function createTraining(){
 
 const token = localStorage.getItem("token")
@@ -64,11 +81,11 @@ description: document.getElementById("description").value,
 seatLimit: document.getElementById("seatLimit").value
 }
 
-const res = await fetch(BASE_URL+"/training/create",{
+const res = await fetch(BASE_URL + "/request/create",{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
-"Authorization":"Bearer "+token
+"Authorization":"Bearer " + token
 },
 body:JSON.stringify(data)
 })
@@ -77,37 +94,46 @@ const result = await res.json()
 
 alert(result.message)
 }
+
+
+
 async function getTrainings(){
 
 const token = localStorage.getItem("token")
 
-const res = await fetch(BASE_URL+"/training/all",{
+const res = await fetch(BASE_URL + "/request/all",{
 headers:{
-"Authorization":"Bearer "+token
+"Authorization":"Bearer " + token
 }
 })
 
 const result = await res.json()
 
 const list = document.getElementById("trainingList")
-list.innerHTML=""
+list.innerHTML = ""
 
-result.trainings.forEach(t=>{
+result.trainings.forEach(t => {
+
 const li = document.createElement("li")
+
 li.innerHTML = t.trainingName + " - Seats: " + t.seatLimit +
 ` <button onclick="enroll('${t._id}')">Enroll</button>`
+
 list.appendChild(li)
+
 })
+
 }
+
 
 async function enroll(id){
 
 const token = localStorage.getItem("token")
 
-const res = await fetch(BASE_URL+"/training/enroll/"+id,{
+const res = await fetch(BASE_URL + "/request/enroll/" + id,{
 method:"POST",
 headers:{
-"Authorization":"Bearer "+token
+"Authorization":"Bearer " + token
 }
 })
 
