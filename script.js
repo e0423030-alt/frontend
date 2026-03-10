@@ -193,6 +193,9 @@ const result = await res.json()
 
 alert(result.message)
 
+await getTrainings()
+await myEnrollments()
+
 }
 
 
