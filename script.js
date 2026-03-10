@@ -17,10 +17,37 @@ body:JSON.stringify(data)
 
 const result = await res.json()
 
-document.getElementById("msg").innerText = result.message
+if(result.message === "sucess"){
+
+// automatically login after register
+const loginRes = await fetch(BASE_URL + "/user/login",{
+method:"POST",
+headers:{ "Content-Type":"application/json"},
+body:JSON.stringify({
+email:data.email,
+password:data.password
+})
+})
+
+const loginResult = await loginRes.json()
+
+localStorage.setItem("token", loginResult.token)
+
+const payload = JSON.parse(atob(loginResult.token.split(".")[1]))
+
+if(payload.role === "TRAINER"){
+window.location.href = "trainer.html"
+}else{
+window.location.href = "employee.html"
 }
 
+}else{
 
+document.getElementById("msg").innerText = result.message
+
+}
+
+}
 
 async function login(){
 
@@ -92,7 +119,33 @@ const result = await res.json()
 alert(result.message)
 
 }
+async function myTrainings(){
 
+const token = localStorage.getItem("token")
+
+const res = await fetch(BASE_URL + "/request/training/my-trainings",{
+headers:{
+"Authorization":"Bearer " + token
+}
+})
+
+const result = await res.json()
+
+const list = document.getElementById("trainerTrainings")
+
+list.innerHTML = ""
+
+result.trainings.forEach(t => {
+
+const li = document.createElement("li")
+
+li.innerText = t.trainingName + " | Seats: " + t.enrolledCount + "/" + t.seatLimit
+
+list.appendChild(li)
+
+})
+
+}
 
 async function getTrainings(){
 
