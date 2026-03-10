@@ -20,5 +20,23 @@
 
 <script src="script.js"></script>
 
+<script>
+  window.onload = async function() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "index.html"; // redirect if no token
+      return;
+    }
+
+    // Call functions to load data
+    try {
+      if (typeof getTrainings === "function") await getTrainings();
+      if (typeof myEnrollments === "function") await myEnrollments();
+    } catch (err) {
+      console.error("Error loading trainings or enrollments:", err);
+    }
+  }
+</script>
+
 </body>
 </html>
