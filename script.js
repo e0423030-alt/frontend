@@ -1,6 +1,5 @@
 const BASE_URL = "https://internal-training-enrollement-system.onrender.com"
 
-
 async function register(){
 
 const data = {
@@ -48,10 +47,16 @@ alert("Login successful")
 
 const payload = JSON.parse(atob(result.token.split(".")[1]))
 
+console.log("ROLE:", payload.role)
+
 if(payload.role === "TRAINER"){
+
 window.location.href = "trainer.html"
+
 }else{
+
 window.location.href = "employee.html"
+
 }
 
 }else{
@@ -61,7 +66,6 @@ document.getElementById("msg").innerText = result.message
 }
 
 }
-
 
 
 async function createTraining(){
