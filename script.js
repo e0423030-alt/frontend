@@ -117,6 +117,7 @@ body:JSON.stringify(data)
 const result = await res.json()
 
 alert(result.message)
+await myTrainings()
 
 }
 async function myTrainings(){
@@ -134,7 +135,9 @@ const result = await res.json()
 const list = document.getElementById("trainerTrainings")
 list.innerHTML = ""
 
-result.trainings.forEach(t => {
+const trainings = result.trainings || result.data || []
+
+trainings.forEach(t => {
 
 const div = document.createElement("div")
 div.className = "card-box"
@@ -162,11 +165,14 @@ headers:{
 })
 
 const result = await res.json()
+console.log("GET TRAININGS CLICKED")
 
 const list = document.getElementById("trainingList")
 list.innerHTML = ""
 
-result.trainings.forEach(t => {
+const trainings = result.trainings || result.data || []
+
+trainings.forEach(t => {
 
 const div = document.createElement("div")
 div.className = "card-box"
@@ -219,11 +225,13 @@ headers:{
 })
 
 const result = await res.json()
+console.log("MY ENROLLMENTS CLICKED")
 
 const list = document.getElementById("myEnrollments")
 list.innerHTML = ""
+const enrollments = result.enrollments || result.data || []
 
-result.enrollments.forEach(e => {
+enrollments.forEach(e => {
 
 const div = document.createElement("div")
 div.className = "card-box"
