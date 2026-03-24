@@ -166,6 +166,7 @@ headers:{
 
 const result = await res.json()
 console.log("GET TRAININGS CLICKED")
+console.log("TRAININGS DATA:", result)
 
 const list = document.getElementById("trainingList")
 list.innerHTML = ""
@@ -226,6 +227,7 @@ headers:{
 
 const result = await res.json()
 console.log("MY ENROLLMENTS CLICKED")
+console.log("ENROLLMENTS DATA:", result)
 
 const list = document.getElementById("myEnrollments")
 list.innerHTML = ""
