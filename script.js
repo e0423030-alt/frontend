@@ -17,7 +17,7 @@ body:JSON.stringify(data)
 
 const result = await res.json()
 
-if(result.message === "sucess"){
+if(result.message === "success"){
 
 // automatically login after register
 const loginRes = await fetch(BASE_URL + "/user/login",{
@@ -132,16 +132,20 @@ headers:{
 const result = await res.json()
 
 const list = document.getElementById("trainerTrainings")
-
 list.innerHTML = ""
 
 result.trainings.forEach(t => {
 
-const li = document.createElement("li")
+const div = document.createElement("div")
+div.className = "card-box"
 
-li.innerText = t.trainingName + " | Seats: " + t.enrolledCount + "/" + t.seatLimit
+div.innerHTML = `
+<h3>${t.trainingName}</h3>
+<p>${t.description}</p>
+<p>Seats: ${t.enrolledCount}/${t.seatLimit}</p>
+`
 
-list.appendChild(li)
+list.appendChild(div)
 
 })
 
@@ -160,17 +164,21 @@ headers:{
 const result = await res.json()
 
 const list = document.getElementById("trainingList")
-
 list.innerHTML = ""
 
 result.trainings.forEach(t => {
 
-const li = document.createElement("li")
+const div = document.createElement("div")
+div.className = "card-box"
 
-li.innerHTML = t.trainingName + " | Seats: " + t.enrolledCount + "/" + t.seatLimit +
-` <button onclick="enroll('${t._id}')">Enroll</button>`
+div.innerHTML = `
+<h3>${t.trainingName}</h3>
+<p>${t.description}</p>
+<p>Seats: ${t.enrolledCount}/${t.seatLimit}</p>
+<button class="action-btn" onclick="enroll('${t._id}')">Enroll</button>
+`
 
-list.appendChild(li)
+list.appendChild(div)
 
 })
 
@@ -213,17 +221,21 @@ headers:{
 const result = await res.json()
 
 const list = document.getElementById("myEnrollments")
-
 list.innerHTML = ""
 
 result.enrollments.forEach(e => {
 
-const li = document.createElement("li")
+const div = document.createElement("div")
+div.className = "card-box"
 
-li.innerText = e.training.trainingName
+div.innerHTML = `<h3>${e.training.trainingName}</h3>`
 
-list.appendChild(li)
+list.appendChild(div)
 
 })
-
 }
+function logout(){
+  localStorage.removeItem("token")
+  window.location.href = "index.html"
+}
+

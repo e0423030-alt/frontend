@@ -1,40 +1,50 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <title>Trainer Dashboard</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="dashboard">
+
+<div class="sidebar">
+  <h2>Trainer</h2>
+  <button onclick="myTrainings()">My Trainings</button>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<div class="main">
 
 <h2>Create Training</h2>
 
-<input id="trainingName" placeholder="Training Name"><br><br>
-<input id="description" placeholder="Description"><br><br>
-<input id="seatLimit" placeholder="Seat Limit"><br><br>
+<div class="card-box">
+  <input id="trainingName" placeholder="Training Name"><br><br>
+  <input id="description" placeholder="Description"><br><br>
+  <input id="seatLimit" placeholder="Seat Limit"><br><br>
 
-<button onclick="createTraining()">Create Training</button>
+<button class="action-btn" onclick="createTraining()">Create</button>
+
+</div>
 
 <h2>My Trainings</h2>
-<button onclick="myTrainings()">View My Trainings</button>
+<div id="trainerTrainings"></div>
 
-<ul id="trainerTrainings"></ul>
-<button onclick="getMyTrainings()">Load Trainings</button>
-
-<ul id="trainingList"></ul>
+</div>
 
 <script src="script.js"></script>
 
 <script>
-    window.onload = async function() {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        window.location.href = "index.html";
-        return;
-      }
+window.onload = async function() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "index.html";
+    return;
+  }
 
-      if (typeof myTrainings === "function") await myTrainings();
-    }
-  </script>
+  await myTrainings();
+}
+</script>
 
 </body>
 </html>

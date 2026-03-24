@@ -1,41 +1,43 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <title>Employee Dashboard</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="dashboard">
+
+<div class="sidebar">
+  <h2>Employee</h2>
+  <button onclick="getTrainings()">Available Trainings</button>
+  <button onclick="myEnrollments()">My Enrollments</button>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<div class="main">
 
 <h2>Available Trainings</h2>
-
-<button onclick="getTrainings()">Load Trainings</button>
-
-<ul id="trainingList"></ul>
+<div id="trainingList"></div>
 
 <h2>My Enrollments</h2>
+<div id="myEnrollments"></div>
 
-<button onclick="getMyEnrollments()">View My Enrollments</button>
-
-<ul id="myEnrollments"></ul>
+</div>
 
 <script src="script.js"></script>
 
 <script>
-  window.onload = async function() {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      window.location.href = "index.html"; // redirect if no token
-      return;
-    }
-
-    // Call functions to load data
-    try {
-      if (typeof getTrainings === "function") await getTrainings();
-      if (typeof myEnrollments === "function") await myEnrollments();
-    } catch (err) {
-      console.error("Error loading trainings or enrollments:", err);
-    }
+window.onload = async function() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "index.html";
+    return;
   }
+
+  await getTrainings();
+  await myEnrollments();
+}
 </script>
 
 </body>
