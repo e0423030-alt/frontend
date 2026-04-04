@@ -238,7 +238,9 @@ enrollments.forEach(e => {
 const div = document.createElement("div")
 div.className = "card-box"
 
-div.innerHTML = `<h3>${e.training.trainingName}</h3>`
+div.innerHTML = `
+<h3>${e.training ? e.training.trainingName : "No Training Found"}</h3>
+`
 
 list.appendChild(div)
 
